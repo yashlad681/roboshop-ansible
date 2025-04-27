@@ -1,0 +1,42 @@
+#set -e
+#
+#if [ -z "$1" ]; then
+#  echo Input DB pass is missing
+#  exit 1
+#fi
+#
+#component_name=shipping
+#source common.sh
+#
+#java
+
+#systemd_setup
+
+- name: Run Java
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: java
+
+#dnf install mysql -y
+#for file in schema app-user master-data; do
+#    mysql -h mysql-dev.yashdevops.online -uroot -p$1 < /app/db/$file.sql
+#done
+
+- name: Install MySQL
+  ansible.builtin.dnf:
+    name: mysql
+    state: latest
+
+- name: Load Schema
+  ansible.builtin.shell: mysql -h mysql-dev.yashdevops.online -uroot -pRoboShop@1 < /app/db/schema.sql
+
+- name: Load app-user
+  ansible.builtin.shell: mysql -h mysql-dev.yashdevops.online -uroot -p-pRoboShop@1 < /app/db/app-user.sql
+
+- name: Load master-data
+  ansible.builtin.shell: mysql -h mysql-dev.yashdevops.online -uroot -p-pRoboShop@1 < /app/db/master-data.sql
+
+- name: Run systemd_setup
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: systemd_setup
