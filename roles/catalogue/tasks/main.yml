@@ -16,7 +16,7 @@
 
 - name: Install MongoDB
   ansible.builtin.dnf:
-    src: mongodb-mongosh
+    name: mongodb-mongosh
     state: latest
 
 - name: Load Master Data
