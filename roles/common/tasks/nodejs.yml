@@ -1,0 +1,28 @@
+##  cp ${component_name}.service /etc/systemd/system/${component_name}.service
+#dnf module disable nodejs -y
+#dnf module enable nodejs:20 -y
+#dnf install nodejs -y
+#
+#app_pre_setup.yml
+#
+#npm install
+
+- name: Disable NodeJS default & Enable nodejs 20
+  ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:20 -y
+
+- name: Install NodeJS
+  ansible.builtin.dnf:
+    name: nodejs
+    state: present
+
+- name: Load App Pre-requisites
+  ansible.builtin.include_tasks:
+    file: app_pre_setup.yaml
+
+- name: Download App Dependencies
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+
+

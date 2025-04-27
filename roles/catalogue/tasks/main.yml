@@ -1,0 +1,28 @@
+- name: Run NodeJS
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: nodejs
+
+#  cp ${pwd}/mongo.repo /etc/yum.repos.d/mongo.repo
+#  dnf install mongodb-mongosh -y
+#  mongosh --host mongodb-dev.yashdevops.online </app/db/master-data.js
+#
+#  systemd_setup
+
+- name: Copy MongoDB repo file
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: Install MongoDB
+  ansible.builtin.dnf:
+    src: mongodb-mongosh
+    state: latest
+
+- name: Load Master Data
+  ansible.builtin.shell: mongosh --host mongodb-dev.yashdevops.online </app/db/master-data.js
+
+- name: Run systemd_setup
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: systemd_setup
