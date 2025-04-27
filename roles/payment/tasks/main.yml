@@ -1,6 +1,18 @@
-component_name=payment
-source common.sh
+#component_name=payment
+#source common.sh
+#
+#python
+#
+#systemd_setup
 
-python
+- name: Run Python
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: python
 
-systemd_setup
+
+
+- name: Run systemd_setup
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: systemd_setup
