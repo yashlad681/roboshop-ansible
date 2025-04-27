@@ -1,0 +1,18 @@
+#component_name=cart
+#source common.sh
+#
+#nodejs
+#
+#systemd_setup
+
+- name: Run NodeJS
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: nodejs
+
+
+
+- name: Run systemd_setup
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: systemd_setup
